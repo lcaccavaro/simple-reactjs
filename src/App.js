@@ -35,7 +35,7 @@ function App() {
       const response = await api.post('/repositories', repository);
       console.log(response);
       const statusCode = response.status;
-      
+
       if (statusCode === 200) {
         const repositoryCreated = response.data;
         setRepositories([...repositories, repositoryCreated]);
@@ -47,7 +47,25 @@ function App() {
   }
 
   async function handleRemoveRepository(id) {
-    // TODO
+    const url = `/repositories/${id}`;
+    
+    try {
+      const response = await api.delete(url);
+      console.log(response);
+      const statusCode = response.status;
+
+      if (statusCode === 204) {
+        const index = repositories.findIndex(repository => repository.id === id);
+        
+        const repositoriesUpdated = repositories;
+        repositoriesUpdated.splice(index, 1);
+        
+        setRepositories([...repositoriesUpdated]);
+      }
+    } 
+    catch (error) {
+
+    }
   }
 
   return (
@@ -56,8 +74,8 @@ function App() {
         {repositories.map(repository => {
           return (
             <li key={repository.id}>
-              {repository.title}
-              <button onClick={() => handleRemoveRepository(1)}>
+              {repository.title} - {repository.id}
+              <button onClick={() => handleRemoveRepository(repository.id)}>
                 Remover
               </button>
             </li>
