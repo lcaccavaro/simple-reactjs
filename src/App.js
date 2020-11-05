@@ -27,7 +27,7 @@ function App() {
   async function handleAddRepository() {
     const repository = {
       url: "https://github.com/lcaccavaro",
-      title: "lcaccavaro",
+      title: "Desafio ReactJS",
       techs: ["Node", "Express", "TypeScript"]
     };
 
@@ -74,7 +74,7 @@ function App() {
         {repositories.map(repository => {
           return (
             <li key={repository.id}>
-              {repository.title} - {repository.id}
+              {repository.title}
               <button onClick={() => handleRemoveRepository(repository.id)}>
                 Remover
               </button>
