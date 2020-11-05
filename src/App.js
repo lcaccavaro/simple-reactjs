@@ -12,16 +12,38 @@ function App() {
   }, []);
 
   async function onInit() {
+    try {
+      const response = await api.get('/repositories');
+      const repositories = response.data;
+      console.log(repositories);
 
-    const response = await api.get('/repositories');
-    const repositories = response.data;
-    console.log(repositories);
-    setRepositories(repositories);
-
+      setRepositories(repositories);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   async function handleAddRepository() {
-    // TODO
+    const repository = {
+      url: "https://github.com/lcaccavaro",
+      title: "lcaccavaro",
+      techs: ["Node", "Express", "TypeScript"]
+    };
+
+    try {
+      const response = await api.post('/repositories', repository);
+      console.log(response);
+      const statusCode = response.status;
+      
+      if (statusCode === 200) {
+        const repositoryCreated = response.data;
+        setRepositories([...repositories, repositoryCreated]);
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   async function handleRemoveRepository(id) {
